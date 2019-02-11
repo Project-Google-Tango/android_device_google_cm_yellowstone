@@ -40,7 +40,7 @@ TARGET_KERNEL_DT_NAME := tegra124-ardbeg
 # Kernel cmdline
 TARGET_KERNEL_SOURCE := kernel/google/yellow
 TARGET_KERNEL_CONFIG := yellowstone_defconfig
-BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive androidboot.ccihwid=6 usbcore.autosuspend=-1
+BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
 
 # CPU options
 TARGET_CPU_ABI := armeabi-v7a
@@ -52,6 +52,7 @@ TARGET_CPU_SMP := true
 
 # powerhal
 BOARD_USES_POWERHAL := true
+TARGET_POWERHAL_VARIANT := tegra
 
 BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
@@ -73,7 +74,7 @@ BOARD_WLAN_DEVICE                := bcmdhd
 BOARD_HOSTAPD_DRIVER             := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
 WIFI_DRIVER_FW_PATH_STA          := "/data/misc/wifi/firmware/fw_bcmdhd.bin"
-WIFI_DRIVER_FW_PATH_AP           := "/data/misc/wifi/firmware/fw_bcmdhd_a0.bin"
+WIFI_DRIVER_FW_PATH_AP           := "/data/misc/wifi/firmware/fw_bcmdhd_apsta_a0.bin"
 WIFI_DRIVER_FW_PATH_P2P          := "/data/misc/wifi/firmware/fw_bcmdhd.bin"
 WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
 WIFI_DRIVER_MODULE_ARG           := "iface_name=wlan0"
@@ -128,9 +129,6 @@ TARGET_USE_NCT := true
 # use LBH partition and resources in it
 BOARD_HAVE_LBH_SUPPORT := false
 
-# Sensors
-TARGET_SENSOR_VARIANT := tegra
-
 # TWRP
 ifeq ($(WITH_TWRP),true)
 include $(DEVICE_PATH)/twrp.mk
@@ -141,16 +139,57 @@ ART_USE_HSPACE_COMPACT=true
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
 
+BOARD_HARDWARE_CLASS := device/google/yellowstone/cmhw/
+
 # SELinux
-#BOARD_SEPOLICY_DIRS += device/google/yellowstone/sepolicy
-#BOARD_SEPOLICY_UNION += \
-#        device.te \
-#	dhcp.te \
-#	file.te \
-#	gpsd.te \
-#	rild.te \
-#        file_contexts \
-#        property_contexts
+BOARD_SEPOLICY_DIRS += device/google/yellowstone/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+	te_macros \
+	agpsd.te \
+	app.te \
+	bluetooth.te \
+	bootanim.te \
+	cvc.te \
+	device.te \
+	dhcp.te \
+	domain.te \
+	drmserver.te \
+	fild.te \
+	file_contexts \
+	file.te \
+	genfs_contexts \
+	gpload.te \
+	gpsd.te \
+	healthd.te\
+	hostapd.te \
+	installd.te \
+	mediaserver.te \
+	mock_modem.te \
+	netd.te \
+	platform_app.te \
+	property_contexts \
+	property.te \
+	raydium.te \
+	recovery.te \
+	sensorhubd.te \
+	service.te \
+	service_contexts \
+	set_hwui.te \
+	shell.te \
+	surfaceflinger.te \
+	system_app.te \
+	system_server.te \
+	tee.te \
+	ueventd.te \
+	untrusted_app.te \
+	usb.te \
+	ussrd.te \
+	ussr_setup.te \
+	vold.te \
+	wifi_loader.te \
+	wpa.te \
+	zygote.te
 
 # Inherit from the proprietary version
 include vendor/google/yellowstone/BoardConfigVendor.mk

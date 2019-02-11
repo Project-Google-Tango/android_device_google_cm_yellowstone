@@ -25,7 +25,6 @@ on boot
     #set panel rotation
     setprop persist.tegra.panel.rotation 0
 
-
 on init
     setprop phs.gpucompute.gpu_freq 30
     # Mount a tmpfs into /mnt/tmp for hosting nvram, phs shared memory
@@ -52,3 +51,9 @@ service klogd /system/bin/klogd.sh
     class core
     user root
     oneshot
+
+service sensorhubd /system/bin/sensorhubd
+    class main
+    user root
+    group root
+    socket sensorhubd stream 600 system system

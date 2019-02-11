@@ -17,6 +17,17 @@
 # limitations under the License.
 #
 
+# Built in opengapps nano
+
+#GAPPS_VARIANT := full
+
+#PRODUCT_PACKAGES += Chrome
+
+# Yellowstone has a custom patched webview for egl sync erros DO NOT build WebViewGoogle
+#GAPPS_EXCLUDED_PACKAGES := WebViewGoogle
+
+#$(call inherit-product, vendor/opengapps/build/opengapps-packages.mk)
+
 # Screen density
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 PRODUCT_AAPT_CONFIG := normal
@@ -25,6 +36,10 @@ TARGET_TEGRA_VERSION := t124
 
 ## Common product locale
 PRODUCT_LOCALES += en_US
+
+# Project Tango Boot Animation
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/bootanimation.zip:system/media/bootanimation.zip
 
 # Set up device overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
@@ -88,6 +103,10 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf
 
+# bcmdhd/mrvl wifi_loader.sh
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/wifi/wifi_loader.sh:system/bin/wifi_loader.sh
+
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
@@ -111,16 +130,6 @@ PRODUCT_PACKAGES += \
     ueventd.ardbeg.rc
 
 TARGET_RECOVERY_DEVICE_MODULES := rm-wrapper
-
-# Sensors
-PRODUCT_PACKAGES += \
-    sensors.tegra \
-    libsensors.mpl \
-    libsensors.nvs_input \
-    libsensors.base \
-    libsensors.isl29018 \
-    libsensors.iio.lights \
-    libsensors.isl29028
 
 ## REFERENCE_DEVICE
 REFERENCE_DEVICE := ardbeg
@@ -147,6 +156,8 @@ PRODUCT_PACKAGES += \
     libWVStreamControlAPI_L1 \
     libwvdrm_L1
 endif
+
+TARGET_POWERHAL_VARIANT := tegra
 
 # vendor HALs
 PRODUCT_PACKAGES += \
@@ -215,13 +226,15 @@ endif
 
 PRODUCT_CHARACTERISTICS := tablet
 
+
 # set default USB configuration
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp \
+    persist.sys.usb.config=mtp,adb \
     ro.adb.secure=0
 
 # Call the proprietary setup
 $(call inherit-product, vendor/google/yellowstone/yellowstone-vendor.mk)
 $(call inherit-product, vendor/sierra/qualcomm/sierra-vendor.mk)
+$(call inherit-product, vendor/google/widevine/widevine.mk)
 
 

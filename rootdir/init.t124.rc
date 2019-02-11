@@ -18,6 +18,8 @@ on init
     mkdir /storage/emulated 0555 root root
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
     mkdir /storage/sdcard1 0700 root root
+    mkdir /persist 0771 system system
+    mkdir /persistbk 0771 system system
 
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
@@ -47,9 +49,6 @@ on init
 
 on post-fs-data
     chmod 0644 /persist/wifi_mac.txt root root
-    symlink /system/vendor/firmware/bcm43341/fw_bcmdhd.bin /data/misc/wifi/firmware/fw_bcmdhd.bin
-    symlink /system/vendor/firmware/bcm43341/fw_bcmdhd_a0.bin /data/misc/wifi/firmware/fw_bcmdhd_a0.bin
-    symlink /system/etc/nvram_43341_rev4.txt /data/misc/wifi/firmware/nvram.txt
     insmod /system/lib/modules/bcmdhd.ko
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     mkdir /data/nvcam 0700 media camera
@@ -81,6 +80,16 @@ on post-fs-data
     mkdir /data/gps
     chown gps system /data/gps/
     chmod 0770 /data/gps/
+
+    start wifiloader
+
+# wifiloader - set the wifi commchip_id accordingly
+service wifiloader /system/bin/wifi_loader.sh
+    class main
+    user root
+    group root
+    oneshot
+    disabled
 
     chmod 0600 /dev/bcm2079x
     chown nfc nfc /dev/bcm2079x
