@@ -27,6 +27,8 @@ on boot
     chown bluetooth net_bt_stack /mnt/factory/bluetooth/bt_mac.txt
 
 on fs
+    setprop ro.gpsstatus.changed true
+
     # Wifi support rx-filter
     setprop wifi.rx-filter 1
 
@@ -38,15 +40,15 @@ on post-fs-data
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/firmware 0770 wifi wifi
 
-    #create gps files
-    mkdir /data/system/gps
-    chown gps system /data/system/gps/
-    chmod 0770 /data/system/gps/
-
     #create bluedroid_log files
     mkdir /data/misc/bluedroid_log
     chown bluetooth system /data/misc/bluedroid_log
     chmod 0770 /data/misc/bluedroid_log
+
+    #create gps files
+    mkdir /data/gps
+    chown gps system /data/gps/
+    chmod 0770 /data/gps/
 
 service start-gps /system/bin/gps_select.sh
     user root
@@ -56,14 +58,11 @@ service start-gps /system/bin/gps_select.sh
     disabled
 
 #Start GPS daemon
-service gpsd /vendor/bin/glgps_nvidiaTegra2android -c /system/etc/gps/gpsconfig.xml
+service gpsd /system/bin/glgps_nvidiaTegra2android -c /system/etc/gps/gpsconfig.xml
     user gps
-    schedrt
     socket gps seqpacket 0660 gps system
-    group system inet sdcard_rw sdcard_r wakelock
+    group system inet sdcard_rw sdcard_r
     class late_start
-    seclabel u:r:gpsd:s0
-    disabled
 
 service dhcpcd_p2p_wlan0 /system/bin/dhcpcd p2p-wlan0-0
     class main
@@ -90,6 +89,11 @@ service dhcpcd_eth0 /system/bin/dhcpcd -ABKL -f/system/etc/dhcpcd/dhcpcd.conf
      disabled
      oneshot
 
+service dhcpcd_wwan0 /system/bin/dhcpcd -ABKL
+     class main
+     disabled
+     oneshot
+
 service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
     class main
     disabled
@@ -105,6 +109,11 @@ service iprenew_wlan0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
+service iprenew_wwan0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
 service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
@@ -114,6 +123,7 @@ service iprenew_eth0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
+
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf \

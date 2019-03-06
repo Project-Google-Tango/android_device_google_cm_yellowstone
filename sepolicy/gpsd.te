@@ -38,3 +38,8 @@ binder_call(gpsd, system_server);
 binder_use(gpsd);
 
 unix_socket_connect(gpsd, agpsd, agpsd)
+
+allow gpsd system_app_data_file:file read;
+allow gpsd ril_device:chr_file rw_file_perms;
+allow gpsd self:socket create_socket_perms;
+

@@ -172,6 +172,7 @@ if [ $vendor = $BRCM ]; then
 			/system/bin/ln -s /system/etc/nvram_43341_rev4.txt /data/misc/wifi/firmware/nvram.txt
 			/system/bin/ln -s /system/etc/nvram_43341_rev4.txt /data/misc/wifi/firmware/nvram_43341_rev3.txt
 			/system/bin/ln -s /system/etc/nvram_43341_rev4.txt /data/misc/wifi/firmware/nvram_43341_rev4.txt
+			echo -e "AT+CFUN=1\r\n" > /dev/ttyUSB2
 		elif [ $wifi_country_code ]; then
 			/system/bin/rm /data/misc/wifi/firmware/nvram_$chip.txt.*
 			while read line

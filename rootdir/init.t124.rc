@@ -47,6 +47,9 @@ on init
 
     start watchdogd
 
+    #set GPS GPIO property, which is used in gps_select
+    setprop ro.gps.gpio 61
+
 on post-fs-data
     chmod 0644 /persist/wifi_mac.txt root root
     insmod /system/lib/modules/bcmdhd.ko
@@ -76,11 +79,6 @@ on post-fs-data
     # cpu volt cap
     mkdir /data/misc/cvc 0774 system system
 
-    #create gps files
-    mkdir /data/gps
-    chown gps system /data/gps/
-    chmod 0770 /data/gps/
-
     start wifiloader
 
 # wifiloader - set the wifi commchip_id accordingly
@@ -101,13 +99,12 @@ service wifiloader /system/bin/wifi_loader.sh
     chown nfc nfc /data/nfc/param
     symlink /system/etc/libnfc-brcm.conf /data/nfc/libnfc-brcm.conf
 
-    # Create directory for tango_service
-    mkdir /data/system 0775 system system
-    mkdir /data/system/lib 0775 system system
-
     chown system system /persist
     chmod 0771 /persist
 
+    # Create directory for tango_service
+    mkdir /data/system 0775 system system
+    mkdir /data/system/lib 0775 system system
 
 # Set up HDCP
 import init.hdcp.rc

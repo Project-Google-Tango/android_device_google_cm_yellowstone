@@ -19,14 +19,14 @@
 
 # Built in opengapps nano
 
-#GAPPS_VARIANT := full
-
-#PRODUCT_PACKAGES += Chrome
+GAPPS_VARIANT := full
 
 # Yellowstone has a custom patched webview for egl sync erros DO NOT build WebViewGoogle
-#GAPPS_EXCLUDED_PACKAGES := WebViewGoogle
+GAPPS_EXCLUDED_PACKAGES := \
+	WebViewGoogle \
+	Chrome
 
-#$(call inherit-product, vendor/opengapps/build/opengapps-packages.mk)
+$(call inherit-product, vendor/opengapps/build/opengapps-packages.mk)
 
 # Screen density
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
@@ -38,8 +38,8 @@ TARGET_TEGRA_VERSION := t124
 PRODUCT_LOCALES += en_US
 
 # Project Tango Boot Animation
-#PRODUCT_COPY_FILES += \
-#    $(LOCAL_PATH)/bootanimation.zip:system/media/bootanimation.zip
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/bootanimation.zip:system/media/bootanimation.zip
 
 # Set up device overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
@@ -47,9 +47,19 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+# GPS
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/gps/gpsconfig.xml:system/etc/gps/gpsconfig.xml \
+    $(LOCAL_PATH)/gps/rootcert.pem:system/etc/gps/rootcert.pem \
+    $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf
+
 # LTE APNS
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/apns-conf.xml:system/etc/apns-conf.xml
+
+# NVCAMERA HAL CONF
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/nvcamera.conf:system/etc/nvcamera.conf
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -99,6 +109,7 @@ PRODUCT_COPY_FILES += \
 
 # wifi
 PRODUCT_PACKAGES += \
+    libwpa_client \
     hostapd \
     wpa_supplicant \
     wpa_supplicant.conf
@@ -107,13 +118,20 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/wifi_loader.sh:system/bin/wifi_loader.sh
 
-
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
 
+# DHCP
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/wifi/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf
+
+# Allow tethering without provisioning app
+PRODUCT_PROPERTY_OVERRIDES += \
+    net.tethering.noprovisioning=true
+
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 
-LOCAL_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.jetson
+LOCAL_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.ardbeg
 TARGET_RECOVERY_FSTAB = $(LOCAL_FSTAB)
 
 # Ramdisk
@@ -173,6 +191,7 @@ PRODUCT_PACKAGES += \
     audio.primary.tegra \
     audio.a2dp.default \
     audio.usb.default \
+    camera.tegra \
     audio.r_submix.default \
     libaudio-resampler \
     libaudiospdif \

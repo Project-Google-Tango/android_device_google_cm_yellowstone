@@ -1,7 +1,7 @@
 #
 # from device/nvidia/ardbeg/system.prop
 #
-ro.opengles.version = 196609
+ro.opengles.version = 196608
 wifi.interface=wlan0
 ap.interface=wlan0
 persist.tegra.nvmmlite = 1
@@ -50,7 +50,7 @@ klog.enabled = no
 qemu.hw.mainkeys=0
 
 persist.sys.ril.type=QMI
-ro.sierra.voice=1
-persist.sierra.debug.sdk=1
+#persist.sierra.debug.sdk=1
 telephony.lteOnGsmDevice=1
-
+telephony.lteOnCdmaDevice=0
+persist.sierra.sim_ready_delay=15
