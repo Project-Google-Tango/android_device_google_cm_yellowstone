@@ -49,8 +49,8 @@ klog.enabled = no
 
 qemu.hw.mainkeys=0
 
-persist.sys.ril.type=QMI
+#persist.sys.ril.type=QMI
 #persist.sierra.debug.sdk=1
-telephony.lteOnGsmDevice=1
-telephony.lteOnCdmaDevice=0
-persist.sierra.sim_ready_delay=15
+#telephony.lteOnGsmDevice=1
+#telephony.lteOnCdmaDevice=0
+#persist.sierra.sim_ready_delay=15

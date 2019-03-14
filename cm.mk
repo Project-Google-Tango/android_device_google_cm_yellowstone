@@ -43,13 +43,13 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 
 ## including rild here to create modem for data only skus without dialer and
 ## mms apps , not including generic.mk
-#PRODUCT_PACKAGES += rild
+PRODUCT_PACKAGES += rild
 
 ## enable Wifi Access Point monitor (needed for two-step SAR backoff)
-#PRODUCT_PACKAGES += icera-config
+PRODUCT_PACKAGES += icera-config
 
-#PRODUCT_PROPERTY_OVERRIDES += \
-#    ro.modem.do=1 \
-#    ril.icera-config-args=notifier:ON,datastall:ON,lwaactivate
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.modem.do=1 \
+    ril.icera-config-args=notifier:ON,datastall:ON,lwaactivate
 
-#PRODUCT_COPY_FILES += $(LOCAL_PATH)/ril_atc.config:system/etc/ril_atc.config
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/ril_atc.config:system/etc/ril_atc.config

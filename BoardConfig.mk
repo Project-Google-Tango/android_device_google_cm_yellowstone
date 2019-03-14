@@ -38,10 +38,10 @@ TARGET_BOOTLOADER_BOARD_NAME := ardbeg
 TARGET_KERNEL_DT_NAME := tegra124-ardbeg
 
 # Kernel cmdline
-TARGET_KERNEL_SOURCE := kernel/google/master
+TARGET_KERNEL_SOURCE := kernel/google/hw
 TARGET_KERNEL_CONFIG := yellowstone_defconfig
 BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive androidboot.ccihwid=6
-# usb_port_owner_info=1
+#usb_port_owner_info=0
 
 # CPU options
 TARGET_CPU_ABI := armeabi-v7a
@@ -131,9 +131,8 @@ TARGET_USE_NCT := true
 BOARD_HAVE_LBH_SUPPORT := false
 
 # TWRP
-ifeq ($(WITH_TWRP),true)
-include $(DEVICE_PATH)/twrp.mk
-endif
+#RECOVERY_VARIANT := twrp
+#include $(DEVICE_PATH)/twrp.mk
 
 ART_USE_HSPACE_COMPACT=true
 

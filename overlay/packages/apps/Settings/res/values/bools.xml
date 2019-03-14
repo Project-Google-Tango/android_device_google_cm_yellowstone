@@ -14,15 +14,7 @@
      limitations under the License.
 -->
 
-<!-- Phone app resources that may need to be customized
-     for different hardware or product builds. -->
 <resources>
-
-    <!-- Configure certain GsmUmtsOptions to be available or not. The
-         default values are in Phone/res/values/config.xml and maybe overridden
-         in operator specific resource directories or device specific overlays. -->
-
-    <!-- Show enabled lte option for lte device -->
-    <bool name="config_enabled_lte" translatable="false">true</bool>
-
+    <!-- Whether to show a preference item for regulatory information in About phone -->
+    <bool name="config_show_regulatory_info">true</bool>
 </resources>

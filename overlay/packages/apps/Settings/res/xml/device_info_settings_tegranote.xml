@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!-- Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,15 +14,12 @@
      limitations under the License.
 -->
 
-<!-- Phone app resources that may need to be customized
-     for different hardware or product builds. -->
-<resources>
 
-    <!-- Configure certain GsmUmtsOptions to be available or not. The
-         default values are in Phone/res/values/config.xml and maybe overridden
-         in operator specific resource directories or device specific overlays. -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- Show enabled lte option for lte device -->
-    <bool name="config_enabled_lte" translatable="false">true</bool>
-
-</resources>
+        <!-- TN7 HW revision -->
+        <Preference android:key="tnhwrevision"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/tnhwrevision_settings_list_item_title"
+                android:summary="@string/tnhwrevision_settings_list_item_summary"/>
+</PreferenceScreen>
